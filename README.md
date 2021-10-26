@@ -1,4 +1,4 @@
-# flutter_animation
+    # flutter_animation
 
 A new Flutter project.
 
@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## learning source
+- [王叔不禿 - Flutter 动画教程 1-1 两行代码就能动起来](https://www.bilibili.com/video/BV1JZ4y1p7NG?spm_id_from=333.999.0.0)
+

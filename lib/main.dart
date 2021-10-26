@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Animated Container'),
     );
   }
 }
@@ -27,11 +27,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double _side = 100;
 
-  void _incrementCounter() {
+  void _sideChange() {
     setState(() {
-      _counter++;
+      _side = _side > 200 ? 100 : _side + 100;
     });
   }
 
@@ -42,22 +42,29 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        child: AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          width: _side,
+          height: _side,
+          decoration: BoxDecoration(
+            // change color animated
+            //color: _side > 200 ? Colors.red : Colors.blue,
+            gradient: LinearGradient(
+              colors: const [Colors.orange, Colors.white],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              //change gradient change position
+              stops: [(_side / 1000) * 2, 0.9],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+            // make sure always circle
+            borderRadius: BorderRadius.circular(_side / 2),
+            boxShadow: const [BoxShadow(spreadRadius: 5, blurRadius: 15)],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _sideChange,
+        tooltip: 'Change',
         child: const Icon(Icons.add),
       ),
     );
