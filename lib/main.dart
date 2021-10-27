@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Animated Switcher'),
+      home: const MyHomePage(title: 'Flutter Animated Cross Fade'),
     );
   }
 }
@@ -42,25 +42,31 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: AnimatedSwitcher(
-          transitionBuilder: (child, animation) {
-            return ScaleTransition(
-              scale: animation,
-              child: FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
+        child: AnimatedCrossFade(
+          crossFadeState: _isSwitch ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: const Duration(seconds: 1),
+          firstChild: const Text('Hi', style: TextStyle(fontSize: 100),),
+          secondChild: const Text('Halo', style: TextStyle(fontSize: 100),),
+          firstCurve: Curves.easeOutQuad,
+          secondCurve: Curves.easeInQuad,
+          sizeCurve: Curves.bounceInOut,
+          layoutBuilder: (topChild, topChildkey, bottomChild, bottomChildKey) {
+            return Stack(
+              clipBehavior: Clip.hardEdge,
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  key: bottomChildKey,
+                  top: 0,
+                  child: bottomChild,
+                ),
+                Positioned(
+                  key: topChildkey,
+                  child: topChild,
+                ),
+              ],
             );
           },
-          duration: const Duration(seconds: 2),
-          child: _isSwitch
-          ? Text('Hi', key: UniqueKey(), style: TextStyle(fontSize: 100),)
-          : Text('Halo', key: UniqueKey(), style: TextStyle(fontSize: 100),),
-          // child: _isSwitch
-          //   ? const Center(
-          //     child: CircularProgressIndicator(),
-          //   )
-          //   : Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'),
         ),
       ),
       floatingActionButton: FloatingActionButton(
