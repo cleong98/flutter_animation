@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: TweenAnimationBuilder(
           duration: const Duration(seconds: 1),
-          tween: Tween<double>(begin: 72.0, end: _isBig ? 172.0 : 72.0),
+          tween: Tween<double>(begin: 72.0t, end: _isBig ? 172.0 : 72.0),
           builder: (context, double value, child) {
             return Container(
               width: 300,
