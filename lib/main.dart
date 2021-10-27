@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Curve'),
+      home: const MyHomePage(title: 'Flutter tween Animation'),
     );
   }
 }
@@ -27,12 +27,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _top = 0;
+  bool _isBig = false;
 
   void _topChange() {
     setState(() {
-      _top += 300;
-      if(_top > 300) _top = 0;
+     _isBig = !_isBig;
     });
   }
 
@@ -42,15 +41,34 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: AnimatedPadding(
-        duration: const Duration(seconds: 1),
-        padding: EdgeInsets.only(top: _top),
-        // we can using curves to control which curve we want it.
-        curve: Curves.bounceIn,
-        child: Container(
-          width: 200,
-          height: 200,
-          color: Colors.blue,
+      body: Center(
+        child: TweenAnimationBuilder(
+          duration: const Duration(seconds: 1),
+          tween: Tween<double>(begin: 72.0, end: _isBig ? 172.0 : 72.0),
+          builder: (context, double value, child) {
+            return Container(
+              width: 300,
+              height: 300,
+              color: Colors.blue,
+              child:  Center(
+                //PI = 3.14
+
+                // radian => angle
+                // format = radian * 180 / PI
+                //exp: 1 radian =1 * 180 / PI  = 57.3
+
+                // angle => radian
+                // format = angle * pi / 180
+                // exp: 80 angle = 90 * PI / 180 = 1.57
+                //   child: Transform.rotate(
+                //     angle: value,
+                //     child: const Text('Hi', style: TextStyle(fontSize: 50),
+                //     )
+                //   )
+                child: Text('Hi', style: TextStyle(fontSize: value),),
+              ),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
