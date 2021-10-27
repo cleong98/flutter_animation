@@ -16,6 +16,5 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## learning source
-- [王叔不禿 - Flutter 动画教程 1-2 在不同控件之间切换的过渡动画](https://www.bilibili.com/video/BV1Wk4y167V4?spm_id_from=333.999.0.0)
-- [Flutter - AnimatedCrossFade](https://www.youtube.com/watch?v=PGK2UUAyE54)
+- [王叔不禿 - Flutter 动画教程 1-3 更多动画控件及曲线（Curves)](https://www.bilibili.com/video/BV1oC4y1H73Q?spm_id_from=333.999.0.0)
 

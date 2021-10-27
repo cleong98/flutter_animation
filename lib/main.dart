@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Animated Cross Fade'),
+      home: const MyHomePage(title: 'Flutter Curve'),
     );
   }
 }
@@ -27,11 +27,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isSwitch = false;
+  double _top = 0;
 
-  void _switchChanged() {
+  void _topChange() {
     setState(() {
-      _isSwitch = !_isSwitch;
+      _top += 300;
+      if(_top > 300) _top = 0;
     });
   }
 
@@ -41,36 +42,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: AnimatedCrossFade(
-          crossFadeState: _isSwitch ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(seconds: 1),
-          firstChild: const Text('Hi', style: TextStyle(fontSize: 100),),
-          secondChild: const Text('Halo', style: TextStyle(fontSize: 100),),
-          firstCurve: Curves.easeOutQuad,
-          secondCurve: Curves.easeInQuad,
-          sizeCurve: Curves.bounceInOut,
-          layoutBuilder: (topChild, topChildkey, bottomChild, bottomChildKey) {
-            return Stack(
-              clipBehavior: Clip.hardEdge,
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  key: bottomChildKey,
-                  top: 0,
-                  child: bottomChild,
-                ),
-                Positioned(
-                  key: topChildkey,
-                  child: topChild,
-                ),
-              ],
-            );
-          },
+      body: AnimatedPadding(
+        duration: const Duration(seconds: 1),
+        padding: EdgeInsets.only(top: _top),
+        // we can using curves to control which curve we want it.
+        curve: Curves.bounceIn,
+        child: Container(
+          width: 200,
+          height: 200,
+          color: Colors.blue,
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _switchChanged,
+        onPressed: _topChange,
         tooltip: 'Change',
         child: const Icon(Icons.add),
       ),
