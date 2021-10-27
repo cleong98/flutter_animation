@@ -16,5 +16,5 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## learning source
-- [王叔不禿 - Flutter 动画教程 1-1 两行代码就能动起来](https://www.bilibili.com/video/BV1JZ4y1p7NG?spm_id_from=333.999.0.0)
+- [王叔不禿 - Flutter 动画教程 1-2 在不同控件之间切换的过渡动画](https://www.bilibili.com/video/BV1Wk4y167V4?spm_id_from=333.999.0.0)
 

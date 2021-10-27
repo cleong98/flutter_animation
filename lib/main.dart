@@ -27,11 +27,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _side = 100;
+  bool _isSwitch = false;
 
-  void _sideChange() {
+  void _switchChanged() {
     setState(() {
-      _side = _side > 200 ? 100 : _side + 100;
+      _isSwitch = !_isSwitch;
     });
   }
 
@@ -42,28 +42,29 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: AnimatedContainer(
-          duration: const Duration(seconds: 1),
-          width: _side,
-          height: _side,
-          decoration: BoxDecoration(
-            // change color animated
-            //color: _side > 200 ? Colors.red : Colors.blue,
-            gradient: LinearGradient(
-              colors: const [Colors.orange, Colors.white],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              //change gradient change position
-              stops: [(_side / 1000) * 2, 0.9],
-            ),
-            // make sure always circle
-            borderRadius: BorderRadius.circular(_side / 2),
-            boxShadow: const [BoxShadow(spreadRadius: 5, blurRadius: 15)],
-          ),
+        child: AnimatedSwitcher(
+          transitionBuilder: (child, animation) {
+            return ScaleTransition(
+              scale: animation,
+              child: FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+            );
+          },
+          duration: const Duration(seconds: 2),
+          child: _isSwitch
+          ? Text('Hi', key: UniqueKey(), style: TextStyle(fontSize: 100),)
+          : Text('Halo', key: UniqueKey(), style: TextStyle(fontSize: 100),),
+          // child: _isSwitch
+          //   ? const Center(
+          //     child: CircularProgressIndicator(),
+          //   )
+          //   : Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _sideChange,
+        onPressed: _switchChanged,
         tooltip: 'Change',
         child: const Icon(Icons.add),
       ),
