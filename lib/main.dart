@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 4),
       vsync: this,
     )..repeat(reverse: true);
     super.initState();
@@ -57,26 +57,51 @@ class _MyHomePageState extends State<MyHomePage>
         title: Text(widget.title),
       ),
       body: Center(
-        child: SlideTransition(
-            position: Tween(begin: const Offset(0,-0.5), end: const Offset(0, 1))
-                .chain(CurveTween(curve: const Interval(0.8, 1.0)))
-                .animate(_controller),
-          // position: Tween(begin: const Offset(0,-0.5), end: const Offset(0, 1))
-          //     .chain(CurveTween(curve: Curves.elasticInOut))
-          //     .animate(_controller),
-         // scale: _controller.drive(Tween(begin: 0.5, end: 2)),
-         // position: _controller.drive(Tween(begin: const Offset(0, 0), end: const Offset(0, 2))),
-          child: Container(
-            width: 300,
-            height: 300,
-            color: Colors.blue,
-          )
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for(double i = 1; i <=5 ; i++)
+            SlidingBox(
+              controller: _controller,
+              color: Colors.blue[i == 1 ? 100 : (i * 100 + 100).toInt()],
+              interval: Interval((i - 1) * 0.2, (i - 1) * 0.2 +0.2),
+            ),
+
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _transitionAction,
         tooltip: 'Change',
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class SlidingBox extends StatelessWidget {
+  final AnimationController controller;
+  final Color? color;
+  final Interval interval;
+
+  const SlidingBox({
+    Key? key,
+    required this.controller,
+    required this.color,
+    required this.interval,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: Tween(begin: Offset.zero, end: const Offset(0.1, 0))
+          .chain(CurveTween(curve: Curves.bounceOut))
+          .chain(CurveTween(curve: interval))
+          .animate(controller),
+      child: Container(
+        width: 300,
+        height: 100,
+        color: color,
       ),
     );
   }
