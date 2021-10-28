@@ -27,14 +27,35 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  bool _isloading = true;
 
-  void _counterIncrement() async {
+  @override
+  void initState() {
+    _controller = AnimationController(
+        duration: const Duration(seconds: 1),
+        vsync: this
+    );
+    _controller.repeat();
+    super.initState();
+  }
 
-    setState(() {
-      _counter++;
-    });
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _transitionAction() async {
+    _isloading = !_isloading;
+    if(_isloading) {
+      _controller.repeat();
+    } else {
+      _controller.stop();
+    }
+
   }
 
   @override
@@ -44,15 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Container(
-          width: 300,
-          height: 150,
-          // color: Colors.blue,
-          child: AnimatedCounter(value: _counter, duration: const Duration(seconds: 1),),
+        child: RotationTransition(
+          turns: _controller,
+          child: const Icon(Icons.refresh, size: 100),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _counterIncrement,
+        onPressed: _transitionAction,
         tooltip: 'Change',
         child: const Icon(Icons.add),
       ),
@@ -60,46 +79,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
-class AnimatedCounter extends StatelessWidget {
-  final int value;
-  final Duration duration;
-  const AnimatedCounter({Key? key, required this.value, required this.duration}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
-      duration: duration,
-      tween: Tween<double>(end: value.toDouble()),
-      builder: (context, double value, child) {
-        final whole = value ~/ 1;
-        final decimal = value - whole;
-
-        return Stack(
-          children: [
-            Positioned(
-              top: -100 * decimal, // 0-> -100
-              child: Opacity(
-                opacity: 1.0 - decimal,
-                child: Text(
-                  "$whole",
-                  style: const TextStyle(fontSize: 100),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 100 - decimal * 100, // 100 -> 0
-              child: Opacity(
-                opacity: decimal,
-                child: Text(
-                  "${whole + 1}",
-                  style: const TextStyle(fontSize: 100),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}

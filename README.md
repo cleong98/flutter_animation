@@ -16,6 +16,4 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## learning source
-- [王叔不禿 - Flutter 动画教程 1-5 实例（上）：翻滚吧！计数器！](https://www.bilibili.com/video/BV1Ng4y1B754?spm_id_from=333.999.0.0)
-- [王叔不禿 - Flutter 动画教程 1-6 实例（下）：一枚动画控件的诞生](https://www.bilibili.com/video/BV1EV411C7Zq?spm_id_from=333.999.0.0)
-
+- [王叔不禿 - Flutter 动画教程 2-1 可以无尽旋转的显式动画](https://www.bilibili.com/video/BV1Ri4y147ny?spm_id_from=333.999.0.0)
