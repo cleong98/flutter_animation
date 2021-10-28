@@ -6,6 +6,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter tween Animation'),
+      home: const MyHomePage(title: 'Flutter counter demo'),
     );
   }
 }
@@ -27,11 +28,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isBig = false;
+  int _counter = 0;
 
-  void _topChange() {
+  void _counterIncrement() async {
+
     setState(() {
-     _isBig = !_isBig;
+      _counter++;
     });
   }
 
@@ -42,40 +44,62 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: TweenAnimationBuilder(
-          duration: const Duration(seconds: 1),
-          tween: Tween<double>(begin: 72.0t, end: _isBig ? 172.0 : 72.0),
-          builder: (context, double value, child) {
-            return Container(
-              width: 300,
-              height: 300,
-              color: Colors.blue,
-              child:  Center(
-                //PI = 3.14
-
-                // radian => angle
-                // format = radian * 180 / PI
-                //exp: 1 radian =1 * 180 / PI  = 57.3
-
-                // angle => radian
-                // format = angle * pi / 180
-                // exp: 80 angle = 90 * PI / 180 = 1.57
-                //   child: Transform.rotate(
-                //     angle: value,
-                //     child: const Text('Hi', style: TextStyle(fontSize: 50),
-                //     )
-                //   )
-                child: Text('Hi', style: TextStyle(fontSize: value),),
-              ),
-            );
-          },
+        child: Container(
+          width: 300,
+          height: 150,
+          // color: Colors.blue,
+          child: AnimatedCounter(value: _counter, duration: const Duration(seconds: 1),),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _topChange,
+        onPressed: _counterIncrement,
         tooltip: 'Change',
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+
+class AnimatedCounter extends StatelessWidget {
+  final int value;
+  final Duration duration;
+  const AnimatedCounter({Key? key, required this.value, required this.duration}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder(
+      duration: duration,
+      tween: Tween<double>(end: value.toDouble()),
+      builder: (context, double value, child) {
+        final whole = value ~/ 1;
+        final decimal = value - whole;
+
+        return Stack(
+          children: [
+            Positioned(
+              top: -100 * decimal, // 0-> -100
+              child: Opacity(
+                opacity: 1.0 - decimal,
+                child: Text(
+                  "$whole",
+                  style: const TextStyle(fontSize: 100),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 100 - decimal * 100, // 100 -> 0
+              child: Opacity(
+                opacity: decimal,
+                child: Text(
+                  "${whole + 1}",
+                  style: const TextStyle(fontSize: 100),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
