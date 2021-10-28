@@ -30,15 +30,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool _isloading = true;
 
   @override
   void initState() {
     _controller = AnimationController(
-        duration: const Duration(seconds: 1),
-        vsync: this
-    );
-    _controller.repeat();
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    )..repeat(reverse: true);
     super.initState();
   }
 
@@ -49,13 +47,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _transitionAction() async {
-    _isloading = !_isloading;
-    if(_isloading) {
-      _controller.repeat();
-    } else {
-      _controller.stop();
-    }
-
+    _controller.repeat();
   }
 
   @override
@@ -65,9 +57,20 @@ class _MyHomePageState extends State<MyHomePage>
         title: Text(widget.title),
       ),
       body: Center(
-        child: RotationTransition(
-          turns: _controller,
-          child: const Icon(Icons.refresh, size: 100),
+        child: SlideTransition(
+            position: Tween(begin: const Offset(0,-0.5), end: const Offset(0, 1))
+                .chain(CurveTween(curve: const Interval(0.8, 1.0)))
+                .animate(_controller),
+          // position: Tween(begin: const Offset(0,-0.5), end: const Offset(0, 1))
+          //     .chain(CurveTween(curve: Curves.elasticInOut))
+          //     .animate(_controller),
+         // scale: _controller.drive(Tween(begin: 0.5, end: 2)),
+         // position: _controller.drive(Tween(begin: const Offset(0, 0), end: const Offset(0, 2))),
+          child: Container(
+            width: 300,
+            height: 300,
+            color: Colors.blue,
+          )
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -78,4 +81,3 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 }
-

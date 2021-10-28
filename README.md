@@ -16,4 +16,5 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## learning source
-- [王叔不禿 - Flutter 动画教程 2-1 可以无尽旋转的显式动画](https://www.bilibili.com/video/BV1Ri4y147ny?spm_id_from=333.999.0.0)
+- [王叔不禿 - Flutter 动画教程 2-3 控制器串联补间（Tween）和曲线](https://www.bilibili.com/video/BV1LT4y1g7MD?spm_id_from=333.999.0.0
+)
